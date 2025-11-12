@@ -8,11 +8,13 @@ if TYPE_CHECKING:
     from app.models.transaction import Transaction
 
 class Account(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    numero: str = Field(index=True, unique=True)
-    saldo: float = Field(default=0)
-    criado_em: datetime = Field(default_factory=datetime.utcnow)
+    __tablename__ = "contas"
 
-    usuario_id: int = Field(foreign_key="user.id")
+    id: Optional[int] = Field(default=None, primary_key=True)
+    numero: str = Field(index=True, unique=True, nullable=False)
+    saldo: float = Field(default=0, nullable=False)
+    criado_em: datetime = Field(default_factory=datetime.utcnow, nullable=False)
+
+    usuario_id: int = Field(foreign_key="usuarios.id", nullable=False)
     usuario: "User" = Relationship(back_populates="contas")
     transacoes: List["Transaction"] = Relationship(back_populates="conta")

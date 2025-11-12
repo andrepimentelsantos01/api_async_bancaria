@@ -7,9 +7,11 @@ if TYPE_CHECKING:
     from app.models.account import Account
 
 class User(SQLModel, table=True):
+    __tablename__ = "usuarios"
+
     id: Optional[int] = Field(default=None, primary_key=True)
     nome: str
-    email: str = Field(index=True, unique=True)
+    email: str = Field(unique=True, index=True)
     senha_hash: str
     criado_em: datetime = Field(default_factory=datetime.utcnow)
 

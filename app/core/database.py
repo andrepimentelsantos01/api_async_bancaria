@@ -13,15 +13,11 @@ AsyncSessionLocal = sessionmaker(
     class_=AsyncSession
 )
 
-
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
-
     async with AsyncSessionLocal() as session:
         yield session
 
-
 async def init_db() -> None:
-
     import app.models.user
     import app.models.account
     import app.models.transaction
@@ -29,3 +25,7 @@ async def init_db() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
     print("Banco de dados inicializado com sucesso!")
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(init_db())

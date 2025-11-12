@@ -7,10 +7,12 @@ if TYPE_CHECKING:
     from app.models.account import Account
 
 class Transaction(SQLModel, table=True):
+    __tablename__ = "transacoes"
+
     id: Optional[int] = Field(default=None, primary_key=True)
     valor: float
     tipo: str
     data: datetime = Field(default_factory=datetime.utcnow)
 
-    conta_id: int = Field(foreign_key="account.id")
+    conta_id: int = Field(foreign_key="contas.id")
     conta: "Account" = Relationship(back_populates="transacoes")
