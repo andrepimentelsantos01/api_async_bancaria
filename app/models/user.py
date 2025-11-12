@@ -1,12 +1,16 @@
+# app/models/user.py
+
 from __future__ import annotations
-from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List, TYPE_CHECKING
 from datetime import datetime
+from sqlmodel import SQLModel, Field, Relationship
 
 if TYPE_CHECKING:
     from app.models.account import Account
 
+
 class User(SQLModel, table=True):
+
     __tablename__ = "usuarios"
 
     id: Optional[int] = Field(default=None, primary_key=True)
