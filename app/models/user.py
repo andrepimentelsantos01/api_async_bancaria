@@ -10,9 +10,9 @@ class User(SQLModel, table=True):
     __tablename__ = "usuarios"
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    nome: str
-    email: str = Field(unique=True, index=True)
-    senha_hash: str
-    criado_em: datetime = Field(default_factory=datetime.utcnow)
+    nome: str = Field(nullable=False)
+    email: str = Field(index=True, unique=True, nullable=False)
+    senha_hash: str = Field(nullable=False)
+    criado_em: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
     contas: List["Account"] = Relationship(back_populates="usuario")

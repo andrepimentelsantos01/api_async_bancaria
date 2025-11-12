@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import List
 
 class AccountBase(BaseModel):
     numero: str
@@ -17,5 +17,4 @@ class AccountRead(AccountBase):
 class AccountWithTransactions(AccountRead):
     transacoes: List["TransactionRead"] = []
 
-from app.schemas.account_schema import AccountRead 
 from app.schemas.transaction_schema import TransactionRead
