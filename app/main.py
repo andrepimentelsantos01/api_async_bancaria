@@ -1,24 +1,34 @@
 from fastapi import FastAPI
-from contextlib import asynccontextmanager
 from app.routers import user_router, account_router, transaction_router, auth_router, banking_router
+from app.core.database import init_db
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    print("Servidor inicializado com sucesso!")
-    yield
-    print("Servidor finalizado!")
+# ============================================================
+# Inicialização da aplicação
+# ============================================================
 
+app = FastAPI(title="API Bancária Assíncrona", version="1.0.0")
 
-app = FastAPI(
-    title="API Bancária Async",
-    version="1.0.0",
-    description="API bancária assíncrono. @andrepimentelsantos01",
-    lifespan=lifespan,
-)
+# ============================================================
+# Registro das rotas
+# ============================================================
 
-# Inclui as rotas de usuários
 app.include_router(user_router.router)
 app.include_router(account_router.router)
 app.include_router(transaction_router.router)
 app.include_router(auth_router.router)
 app.include_router(banking_router.router)
+
+# ============================================================
+# Ciclo de vida do app (startup e shutdown)
+# ============================================================
+
+@app.on_event("startup")
+async def startup_event():
+    """Evento de inicialização da aplicação"""
+    await init_db()
+    print("🚀 Servidor e banco inicializados com sucesso!")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Evento ao finalizar o servidor"""
+    print("🛑 Servidor finalizado!")
