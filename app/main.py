@@ -11,7 +11,7 @@ from app.controllers.root_controller import router as root_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("🔹 Inicializando banco de dados...")
-    await init_db()
+    await init_db()  # garante que o banco é inicializado antes da app rodar
     print("✅ Banco de dados pronto!")
     yield
     print("🛑 Encerrando aplicação...")
@@ -24,6 +24,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# routers
 app.include_router(root_router)
 app.include_router(auth_router)
 app.include_router(account_router)
